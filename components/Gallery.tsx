@@ -4,6 +4,10 @@ import Section from "./Section";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
+/**
+ * El contenedor máximo de la página es max-w-6xl (~1152px).
+ * Por eso definimos sizes con 1152px en desktop para pedir una imagen nítida.
+ */
 const pics = [
   { src: "/images/prop-1.jpg", caption: "Apartamento moderno en Costa del Este" },
   { src: "/images/prop-2.jpg", caption: "Vista al mar – Punta Pacífica" },
@@ -18,7 +22,7 @@ export default function Gallery() {
 
   useEffect(() => {
     if (paused) return;
-    const id = setInterval(() => setI((p) => (p + 1) % pics.length), 3500);
+    const id = setInterval(() => setI((p) => (p + 1) % pics.length), 4500);
     return () => clearInterval(id);
   }, [paused]);
 
@@ -35,7 +39,16 @@ export default function Gallery() {
         >
           {pics.map((p) => (
             <figure key={p.src} className="relative aspect-[16/9] w-full shrink-0">
-              <Image src={p.src} alt={p.caption} fill className="object-cover" />
+              <Image
+                src={p.src}
+                alt={p.caption}
+                fill
+                // Calidad alta y responsive SIZES alineado al ancho real del contenedor:
+                quality={90}
+                sizes="(min-width: 1280px) 1152px, (min-width: 768px) 704px, 100vw"
+                className="object-cover"
+                placeholder="empty"
+              />
               <figcaption className="absolute bottom-0 left-0 right-0 bg-black/40 p-3 text-white text-sm">
                 {p.caption}
               </figcaption>
