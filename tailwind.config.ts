@@ -8,13 +8,12 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      /* Claves planas para usar clases como text-brand-blue, bg-brand-blue-100, etc. */
       colors: {
-        brand: {
-          blue: "var(--brand-blue)",
-          gold: "var(--brand-gold)",
-          blue700: "var(--brand-blue-700)",
-          blue100: "var(--brand-blue-100)"
-        }
+        "brand-blue": "var(--brand-blue)",
+        "brand-gold": "var(--brand-gold)",
+        "brand-blue-700": "var(--brand-blue-700)",
+        "brand-blue-100": "var(--brand-blue-100)"
       },
       boxShadow: {
         soft: "0 10px 30px rgba(0,0,0,0.08)"
