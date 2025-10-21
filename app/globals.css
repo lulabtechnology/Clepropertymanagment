@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Paleta (fallback si no lees del logo) */
+:root{
+  --brand-blue:#1F3A68;
+  --brand-gold:#C6A24A;
+  --brand-blue-700:#0F2650;
+  --brand-blue-100:#E6ECF7;
+}
+
+html, body { height: 100%; scroll-behavior: smooth; }
+body { @apply text-gray-900 bg-white; }
+
+/* Accesibilidad foco visible */
+:focus-visible { outline: 3px solid var(--brand-gold); outline-offset: 2px; }
+
+/* Navbar solid al hacer scroll (clase toggled por JS) */
+.navbar-solid { @apply bg-white/95 backdrop-blur shadow; }
+
+/* Dots del carrusel */
+.dot { @apply w-2.5 h-2.5 rounded-full bg-white/50 border border-white; }
+.dot-active { @apply bg-white; }
+
+.section { @apply py-16 md:py-24; }
+.section-title { @apply text-3xl md:text-4xl font-serif text-brand-blue mb-6; }
+.section-sub { @apply text-brand-blue/80 max-w-3xl; }
+
+.font-serif { font-family: var(--font-serif); }
