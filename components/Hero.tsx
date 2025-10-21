@@ -60,12 +60,15 @@ export default function Hero() {
               className="absolute inset-0 bg-hero-overlay"
             />
             <Image
-              src={s.src}
-              alt={s.alt}
-              fill
-              priority={i === 0}
-              className="object-cover will-change-transform scale-105"
-            />
+  src={s.src}
+  alt={s.alt}
+  fill
+  priority={i === 0}
+  quality={85}
+  sizes="100vw"                 // <-- clave para generar el srcset correcto por viewport
+  className="object-cover transform-gpu will-change-transform scale-[1.02]"
+/>
+
           </motion.div>
         ))}
       </div>
