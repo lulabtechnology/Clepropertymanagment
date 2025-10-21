@@ -1,3 +1,5 @@
+"use client";
+
 import Section from "./Section";
 import { motion } from "framer-motion";
 import { CheckCircle2 } from "lucide-react";
@@ -25,7 +27,7 @@ export default function Services() {
               key={card}
               initial={{ opacity: 0, y: 8 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.4, delay: idx * 0.06 }}
               className="group rounded-2xl bg-white p-6 shadow-soft transition hover:-translate-y-0.5 hover:shadow-lg"
             >
