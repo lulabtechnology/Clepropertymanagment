@@ -1,3 +1,5 @@
+"use client";
+
 import Section from "./Section";
 import { ShieldCheck, Clock, LineChart, Headset } from "lucide-react";
 import { motion } from "framer-motion";
@@ -22,7 +24,7 @@ export default function Benefits() {
             key={it.title}
             initial={{ opacity: 0, y: 8 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.4, delay: idx * 0.05 }}
             className="rounded-2xl bg-white p-6 shadow-soft hover:shadow-lg transition"
           >
