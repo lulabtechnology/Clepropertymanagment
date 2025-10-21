@@ -22,14 +22,14 @@ export default function Hero() {
   // autoplay
   useEffect(() => {
     if (paused) return;
-    const id = setInterval(() => setIndex((i) => (i + 1) % slides.length), 4500);
+    const id = setInterval(() => setIndex((i) => (i + 1) % slides.length), 5000);
     return () => clearInterval(id);
   }, [paused]);
 
   const prev = () => setIndex((i) => (i - 1 + slides.length) % slides.length);
   const next = () => setIndex((i) => (i + 1) % slides.length);
 
-  // Parallax leve
+  // Parallax leve SOLO en el overlay (no escalar la imagen para no suavizar)
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 300], [0, 40]);
 
@@ -55,20 +55,24 @@ export default function Hero() {
             animate={{ opacity: i === index ? 1 : 0 }}
             transition={{ duration: 0.8 }}
           >
-            <motion.div
-              style={{ y }}
-              className="absolute inset-0 bg-hero-overlay"
-            />
+            {/* Overlay con parallax suave (NO tocar la imagen para evitar blur) */}
+            <motion.div style={{ y }} className="absolute inset-0 bg-hero-overlay" />
             <Image
-  src={s.src}
-  alt={s.alt}
-  fill
-  priority={i === 0}
-  quality={85}
-  sizes="100vw"                 // <-- clave para generar el srcset correcto por viewport
-  className="object-cover transform-gpu will-change-transform scale-[1.02]"
-/>
-
+              src={s.src}
+              alt={s.alt}
+              fill
+              // Calidad alta (sigue siendo comprimido a AVIF/WebP)
+              quality={90}
+              // MUY IMPORTANTE: indica el ancho real del viewport para un srcset correcto
+              sizes="100vw"
+              // En el primer slide pedimos alta prioridad (mejor nítidez inicial)
+              priority={i === 0}
+              // Para el primer slide también sube fetchPriority
+              fetchPriority={i === 0 ? "high" : "auto"}
+              // NO usar scale grande: usar GPU para mayor nitidez en movimiento
+              className="object-cover transform-gpu will-change-transform"
+              placeholder="empty"
+            />
           </motion.div>
         ))}
       </div>
@@ -79,7 +83,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1 }}
-          className="max-w-3xl text-3xl md:text-5xl font-serif"
+          className="max-w-3xl text-3xl md:text-5xl font-serif tracking-tight"
         >
           ¿Tienes una propiedad vacía en Panamá? <br className="hidden md:block" />
           Conviértela en ingresos mensuales sin esfuerzo.
