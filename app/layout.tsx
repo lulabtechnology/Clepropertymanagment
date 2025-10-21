@@ -2,6 +2,23 @@ import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 
+/** Normaliza una URL de entorno para que siempre tenga protocolo y sea válida */
+function normalizeBaseUrl(input?: string | null): string {
+  const raw = (input || "").trim();
+  if (!raw) return "https://example.com";
+  const withProto = raw.startsWith("http://") || raw.startsWith("https://")
+    ? raw
+    : `https://${raw}`;
+  try {
+    // valida
+    // eslint-disable-next-line no-new
+    new URL(withProto);
+    return withProto;
+  } catch {
+    return "https://example.com";
+  }
+}
+
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -10,7 +27,7 @@ const playfair = Playfair_Display({
 });
 
 const siteName = "Clé Property Management";
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://example.com";
+const baseUrl = normalizeBaseUrl(process.env.NEXT_PUBLIC_SITE_URL);
 const description =
   "Gestión integral de propiedades en Panamá: atención 24/7, mantenimiento, marketing y control financiero.";
 
