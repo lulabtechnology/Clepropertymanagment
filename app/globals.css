@@ -25,6 +25,19 @@ body { @apply text-gray-900 bg-white; }
 
 .section { @apply py-16 md:py-24; }
 .section-title { @apply text-3xl md:text-4xl font-serif text-brand-blue mb-6; }
-.section-sub { @apply text-brand-blue/80 max-w-3xl; }
+
+/* ❗️No se puede usar text-brand-blue/80 en @apply. Usamos color + opacidad. */
+.section-sub { 
+  @apply text-brand-blue max-w-3xl;
+  opacity: .85;
+}
 
 .font-serif { font-family: var(--font-serif); }
+
+/* Extras */
+@layer utilities {
+  .shadow-soft { box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+  .bg-hero-overlay {
+    background-image: linear-gradient(to bottom, rgba(15,38,80,0.45), rgba(15,38,80,0.35));
+  }
+}
