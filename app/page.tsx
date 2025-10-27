@@ -2,7 +2,6 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Benefits from "@/components/Benefits";
 import Services from "@/components/Services";
-import HowItWorks from "@/components/HowItWorks";
 import Gallery from "@/components/Gallery";
 import FAQ from "@/components/FAQ";
 import ContactBar from "@/components/ContactBar";
@@ -18,7 +17,6 @@ export default function Page() {
         <Hero />
         <Benefits />
         <Services />
-        <HowItWorks />
         <Gallery />
         <FAQ />
         <ContactBar />
