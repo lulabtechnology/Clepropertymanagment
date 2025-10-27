@@ -2,15 +2,48 @@
 
 import Section from "./Section";
 import { motion } from "framer-motion";
-import { CheckCircle2 } from "lucide-react";
 
-const bullets = [
-  "Check-in / check-out",
-  "Limpieza y coordinación de mantenimiento",
-  "Marketing y listings",
-  "Estrategia de pricing",
-  "Atención 24/7",
-  "Control financiero y reportes"
+const steps = [
+  {
+    n: 1,
+    esTitle: "Evaluamos tu propiedad",
+    esText:
+      "Analizamos ubicación, potencial de ocupación y rentabilidad proyectada.",
+    enText:
+      "We assess your property’s location, potential occupancy, and projected profitability."
+  },
+  {
+    n: 2,
+    esTitle: "Te presentamos la propuesta personalizada",
+    esText:
+      "Recibes un plan a medida con estimaciones de ingresos, tarifas sugeridas y servicios incluidos.",
+    enText:
+      "We share a tailored proposal with income projections, pricing strategy, and included services."
+  },
+  {
+    n: 3,
+    esTitle: "Firmamos y preparamos tu espacio",
+    esText:
+      "Nos encargamos del mobiliario, decoración, fotografías y configuración de los canales de reserva (Airbnb, Booking, etc.).",
+    enText:
+      "We handle setup — furniture, décor, professional photos, and listing creation on major platforms."
+  },
+  {
+    n: 4,
+    esTitle: "Gestionamos cada detalle",
+    esText:
+      "Coordinamos limpieza, mantenimiento, check-in/out, comunicación con huéspedes y precios dinámicos.",
+    enText:
+      "We take care of everything: cleaning, maintenance, guest communication, and dynamic pricing."
+  },
+  {
+    n: 5,
+    esTitle: "Tú recibes tus ganancias",
+    esText:
+      "Recibe tus pagos puntualmente, con reportes claros y acceso a tus reservas en todo momento.",
+    enText:
+      "You receive your payments on time, with full transparency and access to all booking details."
+  }
 ];
 
 export default function Services() {
@@ -18,31 +51,24 @@ export default function Services() {
     <Section
       id="servicios"
       title="Servicios"
-      subtitle="Gestión integral para que no te preocupes por nada."
+      subtitle="What we offer"
     >
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-        {["Gestión integral", "Mantenimiento y calidad", "Marketing y finanzas"].map(
-          (card, idx) => (
-            <motion.div
-              key={card}
-              initial={{ opacity: 0, y: 8 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.4, delay: idx * 0.06 }}
-              className="group rounded-2xl bg-white p-6 shadow-soft transition hover:-translate-y-0.5 hover:shadow-lg"
-            >
-              <h3 className="mb-3 font-semibold text-brand-blue">{card}</h3>
-              <ul className="space-y-2 text-sm text-brand-blue/80">
-                {bullets.map((b) => (
-                  <li key={`${card}-${b}`} className="flex items-center gap-2">
-                    <CheckCircle2 className="shrink-0" size={18} aria-hidden />
-                    <span>{b}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          )
-        )}
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        {steps.map((s, idx) => (
+          <motion.div
+            key={s.n}
+            initial={{ opacity: 0, y: 8 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.4, delay: idx * 0.05 }}
+            className="rounded-2xl bg-white p-6 shadow-soft hover:-translate-y-0.5 hover:shadow-lg transition"
+          >
+            <div className="mb-2 text-sm font-medium text-brand-gold">Paso {s.n}</div>
+            <h3 className="text-brand-blue font-semibold">{s.esTitle}</h3>
+            <p className="mt-2 text-sm text-brand-blue/80">{s.esText}</p>
+            <p className="mt-2 text-xs text-brand-blue/70 italic">{s.enText}</p>
+          </motion.div>
+        ))}
       </div>
     </Section>
   );
