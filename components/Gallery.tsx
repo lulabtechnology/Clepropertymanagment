@@ -5,15 +5,15 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 /**
- * El contenedor máximo de la página es max-w-6xl (~1152px).
- * Por eso definimos sizes con 1152px en desktop para pedir una imagen nítida.
+ * Reemplaza las imágenes por las de TU departamento en /public/images.
+ * (Rutas mantienen el esquema; tú subes los archivos definitivos).
  */
 const pics = [
-  { src: "/images/prop-1.jpg", caption: "Apartamento moderno en Costa del Este" },
-  { src: "/images/prop-2.jpg", caption: "Vista al mar – Punta Pacífica" },
-  { src: "/images/prop-3.jpg", caption: "Casa familiar en Clayton" },
-  { src: "/images/prop-4.jpg", caption: "Estudio elegante en Obarrio" },
-  { src: "/images/prop-5.jpg", caption: "Loft luminoso en San Francisco" }
+  { src: "/images/prop-1.jpg", caption: "Espacio social" },
+  { src: "/images/prop-2.jpg", caption: "Dormitorio principal" },
+  { src: "/images/prop-3.jpg", caption: "Cocina equipada" },
+  { src: "/images/prop-4.jpg", caption: "Balcón con vista" },
+  { src: "/images/prop-5.jpg", caption: "Área de trabajo" }
 ];
 
 export default function Gallery() {
@@ -27,7 +27,7 @@ export default function Gallery() {
   }, [paused]);
 
   return (
-    <Section id="galeria" title="Propiedades" subtitle="Un vistazo a la experiencia Clé.">
+    <Section id="galeria" title="Galería" subtitle={undefined}>
       <div
         className="relative overflow-hidden rounded-2xl shadow-soft"
         onMouseEnter={() => setPaused(true)}
@@ -43,7 +43,6 @@ export default function Gallery() {
                 src={p.src}
                 alt={p.caption}
                 fill
-                // Calidad alta y responsive SIZES alineado al ancho real del contenedor:
                 quality={90}
                 sizes="(min-width: 1280px) 1152px, (min-width: 768px) 704px, 100vw"
                 className="object-cover"
