@@ -8,8 +8,8 @@ import { waUrl } from "@/lib/utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 /**
- * Cada slide con su título/subtítulo. El texto se muestra en AZUL (brand-blue).
- * Tú subes las imágenes: /public/images/hero-1..4.jpg
+ * Cada slide con su título/subtítulo (texto en azul).
+ * Imágenes: /public/images/hero-1..4.jpg
  */
 const slides = [
   {
@@ -57,7 +57,7 @@ export default function Hero() {
   const prev = () => setIndex((i) => (i - 1 + slides.length) % slides.length);
   const next = () => setIndex((i) => (i + 1) % slides.length);
 
-  // Parallax leve en overlay (no escalamos la imagen para evitar blur)
+  // Parallax suave en overlay
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 300], [0, 40]);
 
@@ -83,7 +83,6 @@ export default function Hero() {
             animate={{ opacity: i === index ? 1 : 0 }}
             transition={{ duration: 0.8 }}
           >
-            {/* Overlay con parallax suave */}
             <motion.div style={{ y }} className="absolute inset-0 bg-hero-overlay" />
             <Image
               src={s.src}
@@ -100,72 +99,16 @@ export default function Hero() {
         ))}
       </div>
 
-      {/* Contenido: AHORA en AZUL */}
-      <div className="relative z-10 mx-auto flex h-full max-w-6xl flex-col justify-center px-4">
-        <motion.h1
-          key={`title-${index}`}
+      {/* Panel de texto centrado y protegido (blanco translúcido) */}
+      <div className="relative z-10 mx-auto flex h-full max-w-6xl items-center justify-center px-4">
+        <motion.div
+          key={`panel-${index}`}
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="max-w-4xl text-3xl md:text-5xl font-serif tracking-tight text-brand-blue"
-        >
-          {slides[index].title}
-        </motion.h1>
-
-        <motion.p
-          key={`subtitle-${index}`}
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.05 }}
-          className="mt-4 max-w-3xl text-brand-blue/90"
-        >
-          {slides[index].subtitle}
-        </motion.p>
-
-        <motion.div
-          key={`cta-${index}`}
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="mt-6"
-        >
-          <a href={wa}>
-            <Button aria-label="Contacto por WhatsApp">Contáctenos</Button>
-          </a>
-        </motion.div>
-      </div>
-
-      {/* Controles */}
-      <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-between px-2">
-        <button
-          aria-label="Anterior"
-          className="pointer-events-auto rounded-full bg-black/30 p-2 text-white"
-          onClick={prev}
-        >
-          <ChevronLeft />
-        </button>
-        <button
-          aria-label="Siguiente"
-          className="pointer-events-auto rounded-full bg-black/30 p-2 text-white"
-          onClick={next}
-        >
-          <ChevronRight />
-        </button>
-      </div>
-
-      {/* Dots */}
-      <div className="absolute bottom-5 left-1/2 z-10 -translate-x-1/2">
-        <div className="flex gap-2">
-          {slides.map((_, i) => (
-            <button
-              key={i}
-              aria-label={`Ir al slide ${i + 1}`}
-              className={`dot ${i === index ? "dot-active" : ""}`}
-              onClick={() => setIndex(i)}
-            />
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
+          className="
+            w-full max-w-5xl text-center
+            rounded-2xl
+            bg-white/85 backdrop-blur-sm p-4
+            md:bg-white/60 md:p-8
+            shadow-soft
