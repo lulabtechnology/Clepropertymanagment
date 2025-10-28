@@ -26,7 +26,7 @@ export default function Navbar() {
 
   return (
     <header
-      className="fixed top-0 z-50 w-full bg-[color:var(--brand-blue)] text-white shadow border-b border-white/10"
+      className="fixed top-0 z-50 w-full bg-white text-brand-blue shadow border-b border-black/5"
       aria-label="Barra de navegación principal"
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
@@ -38,11 +38,11 @@ export default function Navbar() {
             height={36}
             priority
           />
-          <span className="font-serif text-lg">Clé</span>
+          <span className="font-serif text-lg text-brand-blue">Clé</span>
 
-          {/* Slogan pill (contrasta sobre el header azul) */}
+          {/* Slogan en AZUL (sin fondo) */}
           <span
-            className="ml-2 hidden sm:inline-flex items-center rounded-full bg-black/40 px-2.5 py-1 text-xs font-medium text-white border border-white/15"
+            className="ml-2 hidden sm:inline-flex items-center text-xs font-medium text-brand-blue"
             title="Slogan"
           >
             Tu propiedad, nuestra pasión
@@ -61,7 +61,7 @@ export default function Navbar() {
 
         {/* Mobile toggle */}
         <button
-          className="md:hidden rounded-lg p-2 text-white"
+          className="md:hidden rounded-lg p-2 text-brand-blue"
           aria-label="Abrir menú"
           onClick={() => setOpen((v) => !v)}
         >
@@ -71,7 +71,7 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {open && (
-        <div className="md:hidden bg-[color:var(--brand-blue)] text-white border-t border-white/10">
+        <div className="md:hidden bg-white text-brand-blue border-t border-black/5">
           <nav className="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-3">
             <Link href="#servicios" className="py-2" onClick={closeMenu}>
               Servicios
