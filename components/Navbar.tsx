@@ -29,18 +29,18 @@ export default function Navbar() {
       className="fixed top-0 z-50 w-full bg-white text-brand-blue shadow border-b border-black/5"
       aria-label="Barra de navegación principal"
     >
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
         <Link href="#hero" className="flex items-center gap-3" onClick={closeMenu}>
+          {/* Logo centrado verticalmente; quitamos el texto "Clé" al lado */}
           <Image
             src="/images/logo.png"
             alt="Clé Property Management"
-            width={36}
-            height={36}
+            width={120}
+            height={40}
+            className="h-8 w-auto"
             priority
           />
-          <span className="font-serif text-lg text-brand-blue">Clé</span>
-
-          {/* Slogan en AZUL (sin fondo) */}
+          {/* Slogan en azul, discreto */}
           <span
             className="ml-2 hidden sm:inline-flex items-center text-xs font-medium text-brand-blue"
             title="Slogan"
