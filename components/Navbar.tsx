@@ -10,7 +10,6 @@ import { Menu, X } from "lucide-react";
 export default function Navbar() {
   const [open, setOpen] = useState(false);
 
-  // Cierra el menú al navegar
   useEffect(() => {
     const close = () => setOpen(false);
     window.addEventListener("hashchange", close);
@@ -27,7 +26,7 @@ export default function Navbar() {
 
   return (
     <header
-      className="fixed top-0 z-50 w-full bg-white/95 backdrop-blur shadow border-b border-black/5"
+      className="fixed top-0 z-50 w-full bg-[color:var(--brand-blue)] text-white shadow border-b border-white/10"
       aria-label="Barra de navegación principal"
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
@@ -39,11 +38,11 @@ export default function Navbar() {
             height={36}
             priority
           />
-          <span className="font-serif text-lg text-brand-blue">Clé</span>
+          <span className="font-serif text-lg">Clé</span>
 
-          {/* Slogan pill (fondo azul). Cambia bg a black si lo prefieren negro */}
+          {/* Slogan pill (contrasta sobre el header azul) */}
           <span
-            className="ml-2 hidden sm:inline-flex items-center rounded-full bg-brand-blue px-2.5 py-1 text-xs font-medium text-white"
+            className="ml-2 hidden sm:inline-flex items-center rounded-full bg-black/40 px-2.5 py-1 text-xs font-medium text-white border border-white/15"
             title="Slogan"
           >
             Tu propiedad, nuestra pasión
@@ -51,10 +50,10 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop */}
-        <nav className="hidden md:flex items-center gap-6 text-sm text-brand-blue">
-          <Link href="#servicios">Servicios</Link>
-          <Link href="#galeria">Galería</Link>
-          <Link href="#faq">FAQ</Link>
+        <nav className="hidden md:flex items-center gap-6 text-sm">
+          <Link href="#servicios" className="hover:opacity-90">Servicios</Link>
+          <Link href="#galeria" className="hover:opacity-90">Galería</Link>
+          <Link href="#faq" className="hover:opacity-90">FAQ</Link>
           <a href={wa} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
             <Button>Contáctenos</Button>
           </a>
@@ -62,7 +61,7 @@ export default function Navbar() {
 
         {/* Mobile toggle */}
         <button
-          className="md:hidden rounded-lg p-2 text-brand-blue"
+          className="md:hidden rounded-lg p-2 text-white"
           aria-label="Abrir menú"
           onClick={() => setOpen((v) => !v)}
         >
@@ -72,8 +71,8 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {open && (
-        <div className="md:hidden bg-white/95 backdrop-blur border-t border-black/5">
-          <nav className="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-3 text-brand-blue">
+        <div className="md:hidden bg-[color:var(--brand-blue)] text-white border-t border-white/10">
+          <nav className="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-3">
             <Link href="#servicios" className="py-2" onClick={closeMenu}>
               Servicios
             </Link>
