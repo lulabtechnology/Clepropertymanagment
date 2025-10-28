@@ -7,11 +7,39 @@ import Button from "./Button";
 import { waUrl } from "@/lib/utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
+/**
+ * Cada slide incluye su propio título/subtítulo según lo que pidió el cliente.
+ * Tú subes las imágenes en /public/images/hero-1..4.jpg
+ */
 const slides = [
-  { src: "/images/hero-1.jpg", alt: "Propiedad destacada 1" },
-  { src: "/images/hero-2.jpg", alt: "Propiedad destacada 2" },
-  { src: "/images/hero-3.jpg", alt: "Propiedad destacada 3" },
-  { src: "/images/hero-4.jpg", alt: "Propiedad destacada 4" }
+  {
+    src: "/images/hero-1.jpg",
+    alt: "Superhost Airbnb",
+    title: "Superhost en Airbnb",
+    subtitle:
+      "Tu propiedad, nuestra pasión. Tu rentabilidad, nuestro objetivo."
+  },
+  {
+    src: "/images/hero-2.jpg",
+    alt: "Por qué elegirnos",
+    title: "POR QUÉ ELEGIRNOS",
+    subtitle:
+      "Cada propiedad es única; nuestra gestión también. En Clé Property Management diseñamos soluciones personalizadas para cada propiedad, adaptándonos a su estilo, sus metas y sus tiempos."
+  },
+  {
+    src: "/images/hero-3.jpg",
+    alt: "Gestión completa. Resultados reales.",
+    title: "Gestión completa. Resultados reales.",
+    subtitle:
+      "En Clé nos encargamos de cada detalle para que tú solo recibas tus ingresos: Publicación y reservas en Airbnb y Booking · Limpieza y mantenimiento profesional · Atención personalizada a huéspedes · Reportes de ingresos y pagos seguros."
+  },
+  {
+    src: "/images/hero-4.jpg",
+    alt: "Gestión financiera transparente",
+    title: "Gestión financiera transparente",
+    subtitle:
+      "Cada número cuenta, y tú lo ves todo. En Clé administramos tus ingresos y gastos con precisión y total visibilidad. Accede a reportes claros de reservas, mantenimientos y pagos, para que tengas siempre el control de tus finanzas."
+  }
 ];
 
 export default function Hero() {
@@ -29,7 +57,7 @@ export default function Hero() {
   const prev = () => setIndex((i) => (i - 1 + slides.length) % slides.length);
   const next = () => setIndex((i) => (i + 1) % slides.length);
 
-  // Parallax leve SOLO en el overlay (no escalar la imagen para no suavizar)
+  // Parallax suave SOLO en el overlay (no escalar la imagen para evitar blur)
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 300], [0, 40]);
 
@@ -55,21 +83,16 @@ export default function Hero() {
             animate={{ opacity: i === index ? 1 : 0 }}
             transition={{ duration: 0.8 }}
           >
-            {/* Overlay con parallax suave (NO tocar la imagen para evitar blur) */}
+            {/* Overlay con parallax suave */}
             <motion.div style={{ y }} className="absolute inset-0 bg-hero-overlay" />
             <Image
               src={s.src}
               alt={s.alt}
               fill
-              // Calidad alta (sigue siendo comprimido a AVIF/WebP)
               quality={90}
-              // MUY IMPORTANTE: indica el ancho real del viewport para un srcset correcto
               sizes="100vw"
-              // En el primer slide pedimos alta prioridad (mejor nítidez inicial)
               priority={i === 0}
-              // Para el primer slide también sube fetchPriority
               fetchPriority={i === 0 ? "high" : "auto"}
-              // NO usar scale grande: usar GPU para mayor nitidez en movimiento
               className="object-cover transform-gpu will-change-transform"
               placeholder="empty"
             />
@@ -77,31 +100,33 @@ export default function Hero() {
         ))}
       </div>
 
-      {/* Contenido */}
+      {/* Contenido: cambia con el slide activo */}
       <div className="relative z-10 mx-auto flex h-full max-w-6xl flex-col justify-center px-4 text-white">
         <motion.h1
+          key={`title-${index}`}
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.1 }}
-          className="max-w-3xl text-3xl md:text-5xl font-serif tracking-tight"
+          transition={{ duration: 0.6 }}
+          className="max-w-4xl text-3xl md:text-5xl font-serif tracking-tight"
         >
-          ¿Tienes una propiedad vacía en Panamá? <br className="hidden md:block" />
-          Conviértela en ingresos mensuales sin esfuerzo.
+          {slides[index].title}
         </motion.h1>
+
         <motion.p
+          key={`subtitle-${index}`}
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          className="mt-4 max-w-2xl text-white/90"
+          transition={{ duration: 0.6, delay: 0.05 }}
+          className="mt-4 max-w-3xl text-white/90"
         >
-          Si vives en Panamá y tienes una propiedad para invertir o alquilar, Clé
-          Property Management te ofrece una gestión integral: atención 24/7, mantenimiento,
-          marketing y control financiero.
+          {slides[index].subtitle}
         </motion.p>
+
         <motion.div
+          key={`cta-${index}`}
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.3 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
           className="mt-6"
         >
           <a href={wa}>
