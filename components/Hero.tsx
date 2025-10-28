@@ -112,3 +112,53 @@ export default function Hero() {
             bg-white/85 backdrop-blur-sm p-4
             md:bg-white/60 md:p-8
             shadow-soft
+          "
+        >
+          <h1 className="text-brand-blue font-serif tracking-tight text-3xl md:text-5xl leading-tight">
+            {slides[index].title}
+          </h1>
+          <p className="mt-3 md:mt-4 mx-auto max-w-4xl text-brand-blue/90 text-base md:text-lg leading-relaxed">
+            {slides[index].subtitle}
+          </p>
+          <div className="mt-5 md:mt-6">
+            <a href={wa}>
+              <Button aria-label="Contacto por WhatsApp">Contáctenos</Button>
+            </a>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Controles */}
+      <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-between px-2">
+        <button
+          aria-label="Anterior"
+          className="pointer-events-auto rounded-full bg-black/30 p-2 text-white"
+          onClick={prev}
+        >
+          <ChevronLeft />
+        </button>
+        <button
+          aria-label="Siguiente"
+          className="pointer-events-auto rounded-full bg-black/30 p-2 text-white"
+          onClick={next}
+        >
+          <ChevronRight />
+        </button>
+      </div>
+
+      {/* Dots */}
+      <div className="absolute bottom-5 left-1/2 z-10 -translate-x-1/2">
+        <div className="flex gap-2">
+          {slides.map((_, i) => (
+            <button
+              key={i}
+              aria-label={`Ir al slide ${i + 1}`}
+              className={`dot ${i === index ? "dot-active" : ""}`}
+              onClick={() => setIndex(i)}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
