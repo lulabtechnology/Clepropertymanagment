@@ -16,7 +16,7 @@ body { @apply text-gray-900 bg-white; }
 /* Accesibilidad foco visible */
 :focus-visible { outline: 3px solid var(--brand-gold); outline-offset: 2px; }
 
-/* Navbar solid al hacer scroll (clase toggled por JS) */
+/* Header ahora SIEMPRE blanco; mantenemos clase por si se requiere reutilizar */
 .navbar-solid { @apply bg-white/95 backdrop-blur shadow; }
 
 /* Dots del carrusel */
@@ -24,13 +24,11 @@ body { @apply text-gray-900 bg-white; }
 .dot-active { @apply bg-white; }
 
 .section { @apply py-16 md:py-24; }
-.section-title { @apply text-3xl md:text-4xl font-serif text-brand-blue mb-6; }
+/* Para que las anclas no queden tapadas por el header fijo */
+.section { scroll-margin-top: 90px; }
 
-/* ❗️No se puede usar text-brand-blue/80 en @apply. Usamos color + opacidad. */
-.section-sub { 
-  @apply text-brand-blue max-w-3xl;
-  opacity: .85;
-}
+.section-title { @apply text-3xl md:text-4xl font-serif text-brand-blue mb-6; }
+.section-sub { @apply text-brand-blue max-w-3xl; opacity: .85; }
 
 .font-serif { font-family: var(--font-serif); }
 
