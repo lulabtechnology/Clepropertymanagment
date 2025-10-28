@@ -15,7 +15,7 @@ export default function Benefits() {
   return (
     <Section
       id="beneficios"
-      title="Confían en nosotros"
+      title="Confía en nosotros"
       subtitle="Beneficios rápidos que elevan tu tranquilidad y rentabilidad."
     >
       <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
