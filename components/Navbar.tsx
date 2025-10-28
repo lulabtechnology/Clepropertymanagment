@@ -8,14 +8,13 @@ import { waUrl } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
 
 export default function Navbar() {
-  const [solid, setSolid] = useState(false);
   const [open, setOpen] = useState(false);
 
+  // Cierra el menú al navegar
   useEffect(() => {
-    const f = () => setSolid(window.scrollY > 24);
-    f();
-    window.addEventListener("scroll", f, { passive: true });
-    return () => window.removeEventListener("scroll", f);
+    const close = () => setOpen(false);
+    window.addEventListener("hashchange", close);
+    return () => window.removeEventListener("hashchange", close);
   }, []);
 
   const phone = process.env.NEXT_PUBLIC_WHATSAPP || "+50766799791";
@@ -28,9 +27,7 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 z-50 w-full transition-all ${
-        solid ? "navbar-solid" : "bg-transparent"
-      } border-b border-black/5`}
+      className="fixed top-0 z-50 w-full bg-white/95 backdrop-blur shadow border-b border-black/5"
       aria-label="Barra de navegación principal"
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
@@ -43,6 +40,14 @@ export default function Navbar() {
             priority
           />
           <span className="font-serif text-lg text-brand-blue">Clé</span>
+
+          {/* Slogan pill (fondo azul). Cambia bg a black si lo prefieren negro */}
+          <span
+            className="ml-2 hidden sm:inline-flex items-center rounded-full bg-brand-blue px-2.5 py-1 text-xs font-medium text-white"
+            title="Slogan"
+          >
+            Tu propiedad, nuestra pasión
+          </span>
         </Link>
 
         {/* Desktop */}
