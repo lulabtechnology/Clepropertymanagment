@@ -8,8 +8,8 @@ import { waUrl } from "@/lib/utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 /**
- * Cada slide incluye su propio título/subtítulo según lo que pidió el cliente.
- * Tú subes las imágenes en /public/images/hero-1..4.jpg
+ * Cada slide con su título/subtítulo. El texto se muestra en AZUL (brand-blue).
+ * Tú subes las imágenes: /public/images/hero-1..4.jpg
  */
 const slides = [
   {
@@ -57,7 +57,7 @@ export default function Hero() {
   const prev = () => setIndex((i) => (i - 1 + slides.length) % slides.length);
   const next = () => setIndex((i) => (i + 1) % slides.length);
 
-  // Parallax suave SOLO en el overlay (no escalar la imagen para evitar blur)
+  // Parallax leve en overlay (no escalamos la imagen para evitar blur)
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 300], [0, 40]);
 
@@ -100,14 +100,14 @@ export default function Hero() {
         ))}
       </div>
 
-      {/* Contenido: cambia con el slide activo */}
-      <div className="relative z-10 mx-auto flex h-full max-w-6xl flex-col justify-center px-4 text-white">
+      {/* Contenido: AHORA en AZUL */}
+      <div className="relative z-10 mx-auto flex h-full max-w-6xl flex-col justify-center px-4">
         <motion.h1
           key={`title-${index}`}
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="max-w-4xl text-3xl md:text-5xl font-serif tracking-tight"
+          className="max-w-4xl text-3xl md:text-5xl font-serif tracking-tight text-brand-blue"
         >
           {slides[index].title}
         </motion.h1>
@@ -117,7 +117,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.05 }}
-          className="mt-4 max-w-3xl text-white/90"
+          className="mt-4 max-w-3xl text-brand-blue/90"
         >
           {slides[index].subtitle}
         </motion.p>
@@ -130,7 +130,7 @@ export default function Hero() {
           className="mt-6"
         >
           <a href={wa}>
-            <Button variant="ghost" aria-label="Contacto por WhatsApp">Contáctenos</Button>
+            <Button aria-label="Contacto por WhatsApp">Contáctenos</Button>
           </a>
         </motion.div>
       </div>
