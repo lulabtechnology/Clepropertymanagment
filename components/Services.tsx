@@ -7,18 +7,14 @@ const steps = [
   {
     n: 1,
     esTitle: "Evaluamos tu propiedad",
-    esText:
-      "Analizamos ubicación, potencial de ocupación y rentabilidad proyectada.",
-    enText:
-      "We assess your property’s location, potential occupancy, and projected profitability."
+    esText: "Analizamos ubicación, potencial de ocupación y rentabilidad proyectada.",
+    enText: "We assess your property’s location, potential occupancy, and projected profitability."
   },
   {
     n: 2,
     esTitle: "Te presentamos la propuesta personalizada",
-    esText:
-      "Recibes un plan a medida con estimaciones de ingresos, tarifas sugeridas y servicios incluidos.",
-    enText:
-      "We share a tailored proposal with income projections, pricing strategy, and included services."
+    esText: "Recibes un plan a medida con estimaciones de ingresos, tarifas sugeridas y servicios incluidos.",
+    enText: "We share a tailored proposal with income projections, pricing strategy, and included services."
   },
   {
     n: 3,
@@ -52,6 +48,8 @@ export default function Services() {
       id="servicios"
       title="Servicios"
       subtitle="What we offer"
+      tight
+      className="pt-0 -mt-4 md:-mt-6"  // tira la sección hacia arriba
     >
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {steps.map((s, idx) => (
