@@ -28,49 +28,55 @@ export default function Navbar() {
       className="fixed top-0 z-50 w-full bg-white text-brand-blue shadow border-b border-black/5"
       aria-label="Barra de navegación principal"
     >
-      {/* Altura fija para que el logo encaje perfecto */}
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-        <Link href="#hero" className="flex items-center gap-3" onClick={closeMenu}>
-          {/* Logo más grande y centrado verticalmente (encaja con h-16) */}
-          <Image
-            src="/images/logo.png"
-            alt="Clé Property Management"
-            width={160}
-            height={44}
-            className="h-10 w-auto"  /* h-10 dentro de header h-16 */
-            priority
-          />
-          {/* ⛔ Quitamos texto “Clé” y el slogan del topbar */}
-        </Link>
+      {/* GRID para centrar el CTA: logo | CTA | menú */}
+      <div className="mx-auto grid h-16 max-w-6xl grid-cols-3 items-center px-4">
+        {/* Izquierda: logo (sin texto adicional) */}
+        <div className="flex items-center">
+          <Link href="#hero" className="flex items-center" onClick={closeMenu}>
+            {/* Ajusta h-10 si lo quieres aún más grande */}
+            <Image
+              src="/images/logo.png"
+              alt="Clé Property Management"
+              width={200}
+              height={48}
+              className="h-10 w-auto"
+              priority
+            />
+          </Link>
+        </div>
 
-        {/* Desktop */}
-        <nav className="hidden md:flex items-center gap-6 text-sm">
-          <Link href="#servicios" className="hover:opacity-90">Servicios</Link>
-          <Link href="#galeria" className="hover:opacity-90">Galería</Link>
-          <Link href="#faq" className="hover:opacity-90">FAQ</Link>
-          {/* ÚNICO botón: WhatsApp */}
+        {/* Centro: ÚNICO botón Contáctenos */}
+        <div className="flex items-center justify-center">
           <a
             href={wa}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="WhatsApp"
-            className="rounded-full bg-[color:var(--brand-gold)] px-4 py-2 font-medium text-white shadow-soft hover:opacity-90"
+            aria-label="Contactar por WhatsApp"
+            className="rounded-full bg-[color:var(--brand-gold)] px-5 py-2 font-medium text-white shadow-soft hover:opacity-90"
           >
-            WhatsApp
+            Contáctenos
           </a>
-        </nav>
+        </div>
 
-        {/* Mobile toggle */}
-        <button
-          className="md:hidden rounded-lg p-2 text-brand-blue"
-          aria-label="Abrir menú"
-          onClick={() => setOpen((v) => !v)}
-        >
-          {open ? <X /> : <Menu />}
-        </button>
+        {/* Derecha: menú (desktop) + hamburguesa (mobile) */}
+        <div className="flex items-center justify-end">
+          <nav className="hidden md:flex items-center gap-6 text-sm">
+            <Link href="#servicios" className="hover:opacity-90">Servicios</Link>
+            <Link href="#galeria" className="hover:opacity-90">Galería</Link>
+            <Link href="#faq" className="hover:opacity-90">FAQ</Link>
+          </nav>
+
+          <button
+            className="md:hidden rounded-lg p-2 text-brand-blue"
+            aria-label="Abrir menú"
+            onClick={() => setOpen((v) => !v)}
+          >
+            {open ? <X /> : <Menu />}
+          </button>
+        </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile menu SIN botón, solo links */}
       {open && (
         <div className="md:hidden bg-white text-brand-blue border-t border-black/5">
           <nav className="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-3">
@@ -83,13 +89,6 @@ export default function Navbar() {
             <Link href="#faq" className="py-2" onClick={closeMenu}>
               FAQ
             </Link>
-            <a
-              href={wa}
-              className="pt-2 pb-1 w-fit rounded-full bg-[color:var(--brand-gold)] px-4 py-2 font-medium text-white shadow-soft"
-              onClick={closeMenu}
-            >
-              WhatsApp
-            </a>
           </nav>
         </div>
       )}
