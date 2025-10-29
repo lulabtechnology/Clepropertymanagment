@@ -3,13 +3,13 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import Button from "./Button";
+import { ChevronLeft, ChevronRight } from "lucide-react"; // (no usados ya, pero puedes borrar la import)
 import { waUrl } from "@/lib/utils";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 
 /**
- * Cada slide con su título/subtítulo (texto en azul).
- * Imágenes: /public/images/hero-1..4.jpg
+ * Cada slide con su título/subtítulo.
+ * Imágenes en /public/images/hero-1..4.jpg
+ * Logo Airbnb (SVG/PNG) en /public/images/airbnb.svg
  */
 const slides = [
   {
@@ -17,28 +17,32 @@ const slides = [
     alt: "Superhost Airbnb",
     title: "Superhost en Airbnb",
     subtitle:
-      "Tu propiedad, nuestra pasión. Tu rentabilidad, nuestro objetivo."
+      "Tu propiedad, nuestra pasión. Tu rentabilidad, nuestro objetivo.",
+    showAirbnb: true
   },
   {
     src: "/images/hero-2.jpg",
     alt: "Por qué elegirnos",
     title: "POR QUÉ ELEGIRNOS",
     subtitle:
-      "Cada propiedad es única; nuestra gestión también. En Clé Property Management diseñamos soluciones personalizadas para cada propiedad, adaptándonos a su estilo, sus metas y sus tiempos."
+      "Cada propiedad es única; nuestra gestión también. En Clé Property Management diseñamos soluciones personalizadas para cada propiedad, adaptándonos a su estilo, sus metas y sus tiempos.",
+    showAirbnb: false
   },
   {
     src: "/images/hero-3.jpg",
     alt: "Gestión completa. Resultados reales.",
     title: "Gestión completa. Resultados reales.",
     subtitle:
-      "En Clé nos encargamos de cada detalle para que tú solo recibas tus ingresos: Publicación y reservas en Airbnb y Booking · Limpieza y mantenimiento profesional · Atención personalizada a huéspedes · Reportes de ingresos y pagos seguros."
+      "En Clé nos encargamos de cada detalle para que tú solo recibas tus ingresos: Publicación y reservas en Airbnb y Booking · Limpieza y mantenimiento profesional · Atención personalizada a huéspedes · Reportes de ingresos y pagos seguros.",
+    showAirbnb: false
   },
   {
     src: "/images/hero-4.jpg",
     alt: "Gestión financiera transparente",
     title: "Gestión financiera transparente",
     subtitle:
-      "Cada número cuenta, y tú lo ves todo. En Clé administramos tus ingresos y gastos con precisión y total visibilidad. Accede a reportes claros de reservas, mantenimientos y pagos, para que tengas siempre el control de tus finanzas."
+      "Cada número cuenta, y tú lo ves todo. En Clé administramos tus ingresos y gastos con precisión y total visibilidad. Accede a reportes claros de reservas, mantenimientos y pagos, para que tengas siempre el control de tus finanzas.",
+    showAirbnb: false
   }
 ];
 
@@ -47,25 +51,19 @@ export default function Hero() {
   const [paused, setPaused] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // autoplay
+  // autoplay (↑ tiempo entre imágenes: 9s)
   useEffect(() => {
     if (paused) return;
-    const id = setInterval(() => setIndex((i) => (i + 1) % slides.length), 5000);
+    const id = setInterval(() => setIndex((i) => (i + 1) % slides.length), 9000);
     return () => clearInterval(id);
   }, [paused]);
 
   const prev = () => setIndex((i) => (i - 1 + slides.length) % slides.length);
   const next = () => setIndex((i) => (i + 1) % slides.length);
 
-  // Parallax suave en overlay
+  // Parallax suave en overlay (no escalamos la imagen para evitar blur)
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 300], [0, 40]);
-
-  const phone = process.env.NEXT_PUBLIC_WHATSAPP || "+50766799791";
-  const wa = waUrl(
-    phone,
-    "Hola Clé, tengo una propiedad en Panamá y quiero más información."
-  );
 
   return (
     <section id="hero" className="relative h-[86svh] md:h-[92svh] overflow-hidden">
@@ -99,54 +97,41 @@ export default function Hero() {
         ))}
       </div>
 
-      {/* Panel de texto centrado y protegido (blanco translúcido) */}
+      {/* Bloque central: centrado, más ancho y legible; texto blanco */}
       <div className="relative z-10 mx-auto flex h-full max-w-6xl items-center justify-center px-4">
         <motion.div
           key={`panel-${index}`}
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="
-            w-full max-w-5xl text-center
-            rounded-2xl
-            bg-white/85 backdrop-blur-sm p-4
-            md:bg-white/60 md:p-8
-            shadow-soft
-          "
+          className="w-full max-w-5xl text-center p-2 md:p-4"
         >
-          <h1 className="text-brand-blue font-serif tracking-tight text-3xl md:text-5xl leading-tight">
+          {/* Título en negrita, blanco luminoso; incluye logo Airbnb en el primer slide */}
+          <h1 className="text-white font-serif font-bold tracking-tight text-3xl md:text-5xl leading-tight">
+            {slides[index].showAirbnb && (
+              <span className="inline-flex items-center justify-center mr-2 align-middle">
+                <Image
+                  src="/images/airbnb.svg"
+                  alt="Airbnb"
+                  width={32}
+                  height={32}
+                  className="h-7 w-auto md:h-8"
+                />
+              </span>
+            )}
             {slides[index].title}
           </h1>
-          <p className="mt-3 md:mt-4 mx-auto max-w-4xl text-brand-blue/90 text-base md:text-lg leading-relaxed">
+
+          {/* Subtítulo en cursiva y blanco luminoso */}
+          <p className="mt-4 mx-auto max-w-4xl text-white/95 italic text-base md:text-lg leading-relaxed">
             {slides[index].subtitle}
           </p>
-          <div className="mt-5 md:mt-6">
-            <a href={wa}>
-              <Button aria-label="Contacto por WhatsApp">Contáctenos</Button>
-            </a>
-          </div>
+          {/* ⛔ Sin botón aquí: el único CTA queda en el top bar */}
         </motion.div>
       </div>
 
-      {/* Controles */}
-      <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-between px-2">
-        <button
-          aria-label="Anterior"
-          className="pointer-events-auto rounded-full bg-black/30 p-2 text-white"
-          onClick={prev}
-        >
-          <ChevronLeft />
-        </button>
-        <button
-          aria-label="Siguiente"
-          className="pointer-events-auto rounded-full bg-black/30 p-2 text-white"
-          onClick={next}
-        >
-          <ChevronRight />
-        </button>
-      </div>
-
-      {/* Dots */}
+      {/* ⛔ Flechas eliminadas */}
+      {/* Dots (mantenemos) */}
       <div className="absolute bottom-5 left-1/2 z-10 -translate-x-1/2">
         <div className="flex gap-2">
           {slides.map((_, i) => (
