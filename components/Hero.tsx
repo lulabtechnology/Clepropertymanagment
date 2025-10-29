@@ -105,7 +105,7 @@ export default function Hero() {
               <span className="inline-flex items-center justify-center mr-2 align-middle">
                 {/* Usamos <img> para evitar el error de Next con SVG faltante */}
                 <img
-                  src="/images/airbnb.svg"
+                  src="/images/airbnb.png"
                   alt="Airbnb"
                   width={34}
                   height={34}
