@@ -1,35 +1,23 @@
 "use client";
 
 import { ReactNode } from "react";
-import { motion } from "framer-motion";
 
-export default function Section({
-  id,
-  title,
-  subtitle,
-  children
-}: {
+type Props = {
   id?: string;
   title?: string;
   subtitle?: string;
-  children: ReactNode;
-}) {
+  /** children es opcional para permitir secciones “título solo” */
+  children?: ReactNode;
+};
+
+export default function Section({ id, title, subtitle, children }: Props) {
   return (
     <section id={id} className="section">
-      <div className="container mx-auto px-4 max-w-6xl">
-        {title && (
-          <motion.h2
-            initial={{ opacity: 0, y: 8 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.5 }}
-            className="section-title"
-          >
-            {title}
-          </motion.h2>
-        )}
-        {subtitle && <p className="section-sub mb-10">{subtitle}</p>}
-        {children}
+      <div className="mx-auto max-w-6xl px-4">
+        {title && <h2 className="section-title">{title}</h2>}
+        {subtitle && <p className="section-sub">{subtitle}</p>}
+        {/* Renderiza children solo si viene algo */}
+        {children && <div className="mt-6">{children}</div>}
       </div>
     </section>
   );
