@@ -8,6 +8,7 @@ export default function Benefits() {
       id="que-hacemos"
       title="Descubre qué hacemos por ti"
       subtitle={undefined}
+      tight
     />
   );
 }
