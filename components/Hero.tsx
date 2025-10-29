@@ -4,18 +4,21 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
-/**
- * Imágenes: /public/images/hero-1..4.jpg
- * Logo Airbnb: /public/images/airbnb.svg  (sube ese archivo)
+/** 
+ * Imágenes de fondo: /public/images/hero-1.jpg ... hero-4.jpg 
+ * Logo Airbnb:  /public/images/airbnb.svg  (opcional)
+ * Fallback PNG: /public/images/airbnb.png  (opcional)
  */
+
 const slides = [
   {
     src: "/images/hero-1.jpg",
     alt: "Superhost Airbnb",
     title: "Superhost en Airbnb",
+    // Título blanco en negrita | Subtítulo blanco en cursiva (texto largo OK)
     subtitle:
       "Tu propiedad, nuestra pasión. Tu rentabilidad, nuestro objetivo.",
-    showAirbnb: true
+    showAirbnb: true,
   },
   {
     src: "/images/hero-2.jpg",
@@ -23,7 +26,7 @@ const slides = [
     title: "POR QUÉ ELEGIRNOS",
     subtitle:
       "Cada propiedad es única; nuestra gestión también. En Clé Property Management diseñamos soluciones personalizadas para cada propiedad, adaptándonos a su estilo, sus metas y sus tiempos.",
-    showAirbnb: false
+    showAirbnb: false,
   },
   {
     src: "/images/hero-3.jpg",
@@ -31,7 +34,7 @@ const slides = [
     title: "Gestión completa. Resultados reales.",
     subtitle:
       "En Clé nos encargamos de cada detalle para que tú solo recibas tus ingresos: Publicación y reservas en Airbnb y Booking · Limpieza y mantenimiento profesional · Atención personalizada a huéspedes · Reportes de ingresos y pagos seguros.",
-    showAirbnb: false
+    showAirbnb: false,
   },
   {
     src: "/images/hero-4.jpg",
@@ -39,9 +42,51 @@ const slides = [
     title: "Gestión financiera transparente",
     subtitle:
       "Cada número cuenta, y tú lo ves todo. En Clé administramos tus ingresos y gastos con precisión y total visibilidad. Accede a reportes claros de reservas, mantenimientos y pagos, para que tengas siempre el control de tus finanzas.",
-    showAirbnb: false
-  }
+    showAirbnb: false,
+  },
 ];
+
+/** Logo de Airbnb con fallback: SVG -> PNG -> inline */
+function AirbnbLogo() {
+  const [src, setSrc] = useState<string>("/images/airbnb.svg");
+  const [failed, setFailed] = useState(false);
+
+  if (failed) {
+    // Último fallback: SVG inline (círculo fucsia) para no romper
+    return (
+      <span
+        aria-label="Airbnb"
+        className="inline-flex h-7 w-7 items-center justify-center md:h-8 md:w-8"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 32 32"
+          className="h-full w-full"
+        >
+          <circle cx="16" cy="16" r="14" fill="#FF385C" />
+        </svg>
+      </span>
+    );
+  }
+
+  return (
+    // Usamos <img> (no <Image>) para evitar problemas cuando aún no existe el archivo
+    <img
+      src={src}
+      alt="Airbnb"
+      width={34}
+      height={34}
+      className="h-7 w-auto md:h-8"
+      onError={() => {
+        if (src.endsWith(".svg")) {
+          setSrc("/images/airbnb.png"); // intenta PNG
+        } else {
+          setFailed(true); // usa inline si PNG también falla
+        }
+      }}
+    />
+  );
+}
 
 export default function Hero() {
   const [index, setIndex] = useState(0);
@@ -55,7 +100,7 @@ export default function Hero() {
     return () => clearInterval(id);
   }, [paused]);
 
-  // Parallax solo en overlay (no escalar imagen para evitar blur)
+  // Parallax suave en el overlay (no escalamos la imagen para evitar blur)
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 300], [0, 40]);
 
@@ -75,7 +120,11 @@ export default function Hero() {
             animate={{ opacity: i === index ? 1 : 0 }}
             transition={{ duration: 0.8 }}
           >
-            <motion.div style={{ y }} className="absolute inset-0 bg-hero-overlay" />
+            {/* Overlay azul oscuro translúcido con parallax */}
+            <motion.div
+              style={{ y }}
+              className="absolute inset-0 bg-gradient-to-b from-[#0F2650]/50 to-[#0F2650]/35"
+            />
             <Image
               src={s.src}
               alt={s.alt}
@@ -91,7 +140,7 @@ export default function Hero() {
         ))}
       </div>
 
-      {/* Bloque centrado; texto blanco (título bold y subtítulo cursiva) */}
+      {/* Bloque centrado; más ancho; texto blanco (título bold, subtítulo italic) */}
       <div className="relative z-10 mx-auto flex h-full max-w-6xl items-center justify-center px-4">
         <motion.div
           key={`panel-${index}`}
@@ -103,14 +152,7 @@ export default function Hero() {
           <h1 className="text-white font-serif font-bold tracking-tight text-3xl md:text-5xl leading-tight">
             {slides[index].showAirbnb && (
               <span className="inline-flex items-center justify-center mr-2 align-middle">
-                {/* Usamos <img> para evitar el error de Next con SVG faltante */}
-                <img
-                  src="/images/airbnb.svg"
-                  alt="Airbnb"
-                  width={34}
-                  height={34}
-                  className="h-7 w-auto md:h-8"
-                />
+                <AirbnbLogo />
               </span>
             )}
             {slides[index].title}
@@ -122,8 +164,8 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* Sin flechas */}
-      <div className="absolute bottom-5 left-1/2 z-10 -translate-x-1/2">
+      {/* Dots (flechas removidas) */}
+      <div className="absolute bottom-5 left:1/2 z-10 -translate-x-1/2">
         <div className="flex gap-2">
           {slides.map((_, i) => (
             <button
