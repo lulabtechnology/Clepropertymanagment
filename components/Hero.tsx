@@ -3,13 +3,10 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react"; // (no usados ya, pero puedes borrar la import)
-import { waUrl } from "@/lib/utils";
 
 /**
- * Cada slide con su título/subtítulo.
- * Imágenes en /public/images/hero-1..4.jpg
- * Logo Airbnb (SVG/PNG) en /public/images/airbnb.svg
+ * Imágenes: /public/images/hero-1..4.jpg
+ * Logo Airbnb: /public/images/airbnb.svg  (sube ese archivo)
  */
 const slides = [
   {
@@ -51,17 +48,14 @@ export default function Hero() {
   const [paused, setPaused] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // autoplay (↑ tiempo entre imágenes: 9s)
+  // autoplay: 12s entre imágenes
   useEffect(() => {
     if (paused) return;
-    const id = setInterval(() => setIndex((i) => (i + 1) % slides.length), 9000);
+    const id = setInterval(() => setIndex((i) => (i + 1) % slides.length), 12000);
     return () => clearInterval(id);
   }, [paused]);
 
-  const prev = () => setIndex((i) => (i - 1 + slides.length) % slides.length);
-  const next = () => setIndex((i) => (i + 1) % slides.length);
-
-  // Parallax suave en overlay (no escalamos la imagen para evitar blur)
+  // Parallax solo en overlay (no escalar imagen para evitar blur)
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 300], [0, 40]);
 
@@ -97,7 +91,7 @@ export default function Hero() {
         ))}
       </div>
 
-      {/* Bloque central: centrado, más ancho y legible; texto blanco */}
+      {/* Bloque centrado; texto blanco (título bold y subtítulo cursiva) */}
       <div className="relative z-10 mx-auto flex h-full max-w-6xl items-center justify-center px-4">
         <motion.div
           key={`panel-${index}`}
@@ -106,15 +100,15 @@ export default function Hero() {
           transition={{ duration: 0.6 }}
           className="w-full max-w-5xl text-center p-2 md:p-4"
         >
-          {/* Título en negrita, blanco luminoso; incluye logo Airbnb en el primer slide */}
           <h1 className="text-white font-serif font-bold tracking-tight text-3xl md:text-5xl leading-tight">
             {slides[index].showAirbnb && (
               <span className="inline-flex items-center justify-center mr-2 align-middle">
-                <Image
+                {/* Usamos <img> para evitar el error de Next con SVG faltante */}
+                <img
                   src="/images/airbnb.svg"
                   alt="Airbnb"
-                  width={32}
-                  height={32}
+                  width={34}
+                  height={34}
                   className="h-7 w-auto md:h-8"
                 />
               </span>
@@ -122,16 +116,13 @@ export default function Hero() {
             {slides[index].title}
           </h1>
 
-          {/* Subtítulo en cursiva y blanco luminoso */}
           <p className="mt-4 mx-auto max-w-4xl text-white/95 italic text-base md:text-lg leading-relaxed">
             {slides[index].subtitle}
           </p>
-          {/* ⛔ Sin botón aquí: el único CTA queda en el top bar */}
         </motion.div>
       </div>
 
-      {/* ⛔ Flechas eliminadas */}
-      {/* Dots (mantenemos) */}
+      {/* Sin flechas */}
       <div className="absolute bottom-5 left-1/2 z-10 -translate-x-1/2">
         <div className="flex gap-2">
           {slides.map((_, i) => (
