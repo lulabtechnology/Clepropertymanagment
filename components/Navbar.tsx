@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import Button from "./Button";
 import { waUrl } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
 
@@ -29,24 +28,19 @@ export default function Navbar() {
       className="fixed top-0 z-50 w-full bg-white text-brand-blue shadow border-b border-black/5"
       aria-label="Barra de navegación principal"
     >
+      {/* Altura fija para que el logo encaje perfecto */}
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
         <Link href="#hero" className="flex items-center gap-3" onClick={closeMenu}>
-          {/* Logo centrado verticalmente; quitamos el texto "Clé" al lado */}
+          {/* Logo más grande y centrado verticalmente (encaja con h-16) */}
           <Image
             src="/images/logo.png"
             alt="Clé Property Management"
-            width={120}
-            height={40}
-            className="h-8 w-auto"
+            width={160}
+            height={44}
+            className="h-10 w-auto"  /* h-10 dentro de header h-16 */
             priority
           />
-          {/* Slogan en azul, discreto */}
-          <span
-            className="ml-2 hidden sm:inline-flex items-center text-xs font-medium text-brand-blue"
-            title="Slogan"
-          >
-            Tu propiedad, nuestra pasión
-          </span>
+          {/* ⛔ Quitamos texto “Clé” y el slogan del topbar */}
         </Link>
 
         {/* Desktop */}
@@ -54,8 +48,15 @@ export default function Navbar() {
           <Link href="#servicios" className="hover:opacity-90">Servicios</Link>
           <Link href="#galeria" className="hover:opacity-90">Galería</Link>
           <Link href="#faq" className="hover:opacity-90">FAQ</Link>
-          <a href={wa} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-            <Button>Contáctenos</Button>
+          {/* ÚNICO botón: WhatsApp */}
+          <a
+            href={wa}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="WhatsApp"
+            className="rounded-full bg-[color:var(--brand-gold)] px-4 py-2 font-medium text-white shadow-soft hover:opacity-90"
+          >
+            WhatsApp
           </a>
         </nav>
 
@@ -82,8 +83,12 @@ export default function Navbar() {
             <Link href="#faq" className="py-2" onClick={closeMenu}>
               FAQ
             </Link>
-            <a href={wa} className="pt-2 pb-3 w-fit" onClick={closeMenu}>
-              <Button>Contáctenos</Button>
+            <a
+              href={wa}
+              className="pt-2 pb-1 w-fit rounded-full bg-[color:var(--brand-gold)] px-4 py-2 font-medium text-white shadow-soft"
+              onClick={closeMenu}
+            >
+              WhatsApp
             </a>
           </nav>
         </div>
