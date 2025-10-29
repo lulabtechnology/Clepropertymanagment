@@ -9,7 +9,7 @@ export default function Benefits() {
       title="Descubre qué hacemos por ti"
       subtitle={undefined}
       tight
-      className="pb-2 md:pb-3"   // casi sin espacio abajo
+      className="pb-1 md:pb-2"  // casi pegado
     />
   );
 }
