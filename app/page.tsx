@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import Benefits from "@/components/Benefits";
+import Benefits from "@/components/Benefits"; // ahora solo título “Descubre qué hacemos por ti”
 import Services from "@/components/Services";
 import Gallery from "@/components/Gallery";
 import FAQ from "@/components/FAQ";
