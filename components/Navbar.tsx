@@ -28,21 +28,21 @@ export default function Navbar() {
     >
       {/* Grid: logo | CTA centro | menú derecha */}
       <div className="mx-auto grid h-16 max-w-6xl grid-cols-3 items-center px-4">
-        {/* Logo más grande y bien alineado */}
+        {/* Logo más grande pero dentro del topbar */}
         <div className="flex items-center">
           <Link href="#hero" className="flex items-center">
             <Image
               src="/images/logo.png"
               alt="Clé Property Management"
-              width={230}
-              height={60}
-              className="h-12 w-auto"  /* aumenta solo esta altura si lo quieres aún más grande */
+              width={260}
+              height={64}
+              className="h-12 w-auto" /* h-12 dentro de h-16: grande y sin salirse */
               priority
             />
           </Link>
         </div>
 
-        {/* Centro: ÚNICO botón Contáctenos (WhatsApp) */}
+        {/* Centro: ÚNICO botón Contáctenos */}
         <div className="flex items-center justify-center">
           <a
             href={wa}
@@ -55,7 +55,7 @@ export default function Navbar() {
           </a>
         </div>
 
-        {/* Menú a la derecha + hamburguesa en móvil */}
+        {/* Menú derecha + hamburguesa móvil */}
         <div className="flex items-center justify-end">
           <nav className="hidden md:flex items-center gap-6 text-sm">
             <Link href="#servicios" className="hover:opacity-90">Servicios</Link>
@@ -72,7 +72,7 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile menu SIN botón (solo links) */}
+      {/* Menú móvil sin botón de CTA (solo links) */}
       {open && (
         <div className="md:hidden bg-white text-brand-blue border-t border-black/5">
           <nav className="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-3">
