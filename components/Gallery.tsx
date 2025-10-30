@@ -14,21 +14,16 @@ const pics = [
 
 export default function Gallery() {
   const [i, setI] = useState(0);
-  const [paused, setPaused] = useState(false);
 
+  // autoplay constante, sin pausa
   useEffect(() => {
-    if (paused) return;
     const id = setInterval(() => setI((p) => (p + 1) % pics.length), 4500);
     return () => clearInterval(id);
-  }, [paused]);
+  }, []);
 
   return (
     <Section id="galeria" title="Galería" subtitle={undefined}>
-      <div
-        className="relative overflow-hidden rounded-2xl shadow-soft"
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
-      >
+      <div className="relative overflow-hidden rounded-2xl shadow-soft">
         <div
           className="flex transition-transform duration-700 ease-out"
           style={{ transform: `translateX(-${i * 100}%)` }}
