@@ -1,4 +1,3 @@
-// app/page.tsx
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Services from "@/components/Services";
@@ -14,24 +13,15 @@ export default function HomePage() {
   return (
     <>
       <Navbar />
-      <main className="pt-24"> 
-        {/* Hero */}
+      {/* PT EXACTO = altura del header (móvil 64px, desktop 72px) */}
+      <main className="pt-16 md:pt-[72px]">
         <Hero />
-
-        {/* Descubre qué hacemos por ti -> Servicios inmediatamente */}
         <HowItWorks />
         <Services />
-
-        {/* Galería (5 imágenes, carrusel manual con dots) */}
         <Gallery />
-
-        {/* FAQ */}
         <FAQ />
-
-        {/* Barra de contacto (azul/limpia) */}
         <ContactBar />
       </main>
-
       <Footer />
       <FloatingWhatsApp />
       <Metrics />
