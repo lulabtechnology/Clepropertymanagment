@@ -14,9 +14,9 @@ import { motion, useScroll, useTransform } from "framer-motion";
 
 const slides = [
   {
-    src: "/images/hero-1-new.jpg", // <--- NUEVA
+    src: "/images/hero-1-new.jpg",
     alt: "Superhost Airbnb",
-    superTitle: "Administramos tu propiedad", // <--- NUEVO arriba del título
+    superTitle: "Administramos tu propiedad",
     title: "Superhost en Airbnb",
     subtitle:
       "Tu propiedad, nuestra pasión. Tu rentabilidad, nuestro objetivo.",
@@ -43,13 +43,13 @@ const slides = [
 export default function Hero() {
   const [index, setIndex] = useState(0);
 
-  // Parallax en overlay (no escalamos imagen para evitar blur)
+  // Parallax del overlay (no escalamos la imagen para evitar blur adicional)
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 300], [0, 40]);
 
   return (
     <section id="hero" className="relative h-[86svh] md:h-[92svh] overflow-hidden">
-      {/* Slides: sin autoplay, solo cambian con dots */}
+      {/* Slides SIN autoplay: cambian solo con dots */}
       <div className="absolute inset-0">
         {slides.map((s, i) => (
           <motion.div
@@ -59,16 +59,18 @@ export default function Hero() {
             animate={{ opacity: i === index ? 1 : 0 }}
             transition={{ duration: 0.8 }}
           >
+            {/* Capa de color + parallax */}
             <motion.div style={{ y }} className="absolute inset-0 bg-hero-overlay" />
+            {/* Imagen con blur suave y calidad alta */}
             <Image
               src={s.src}
               alt={s.alt}
               fill
-              quality={90}
+              quality={95}
               sizes="100vw"
               priority={i === 0}
               fetchPriority={i === 0 ? "high" : "auto"}
-              className="object-cover transform-gpu will-change-transform"
+              className="object-cover transform-gpu will-change-transform scale-[1.02] [filter:blur(1.2px)]"
               placeholder="empty"
             />
           </motion.div>
@@ -86,12 +88,12 @@ export default function Hero() {
         >
           {/* Super-título SOLO en slide 1 */}
           {slides[index].superTitle && (
-            <div className="mb-2 text-white/95 font-serif text-xl md:text-3xl font-semibold">
+            <div className="mb-2 text-white/95 font-serif text-2xl md:text-4xl font-semibold">
               {slides[index].superTitle}
             </div>
           )}
 
-          {/* Título grande; logo Airbnb más grande en slide 1 */}
+          {/* Título grande; logo Airbnb en slide 1 */}
           <h1 className="text-white font-serif font-extrabold tracking-tight text-5xl md:text-7xl leading-tight">
             {slides[index].showAirbnb && (
               <span className="inline-flex items-center justify-center mr-2 align-middle">
@@ -114,7 +116,7 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* Dots (sin flechas, sin autoplay) */}
+      {/* Dots (manual) */}
       <div className="absolute bottom-5 left-1/2 z-10 -translate-x-1/2">
         <div className="flex gap-2">
           {slides.map((_, i) => (
