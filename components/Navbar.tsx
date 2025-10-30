@@ -21,31 +21,28 @@ export default function Navbar() {
     "Hola Clé, me gustaría recibir información sobre la gestión de mi propiedad."
   );
 
-  const closeMenu = () => setOpen(false);
-
   return (
     <header
       className="fixed top-0 z-50 w-full bg-white text-brand-blue shadow border-b border-black/5"
       aria-label="Barra de navegación principal"
     >
-      {/* GRID para centrar el CTA: logo | CTA | menú */}
+      {/* Grid: logo | CTA centro | menú derecha */}
       <div className="mx-auto grid h-16 max-w-6xl grid-cols-3 items-center px-4">
-        {/* Izquierda: logo (sin texto adicional) */}
+        {/* Logo más grande y bien alineado */}
         <div className="flex items-center">
-          <Link href="#hero" className="flex items-center" onClick={closeMenu}>
-            {/* Ajusta h-10 si lo quieres aún más grande */}
+          <Link href="#hero" className="flex items-center">
             <Image
               src="/images/logo.png"
               alt="Clé Property Management"
-              width={200}
-              height={48}
-              className="h-10 w-auto"
+              width={230}
+              height={60}
+              className="h-12 w-auto"  /* aumenta solo esta altura si lo quieres aún más grande */
               priority
             />
           </Link>
         </div>
 
-        {/* Centro: ÚNICO botón Contáctenos */}
+        {/* Centro: ÚNICO botón Contáctenos (WhatsApp) */}
         <div className="flex items-center justify-center">
           <a
             href={wa}
@@ -58,14 +55,13 @@ export default function Navbar() {
           </a>
         </div>
 
-        {/* Derecha: menú (desktop) + hamburguesa (mobile) */}
+        {/* Menú a la derecha + hamburguesa en móvil */}
         <div className="flex items-center justify-end">
           <nav className="hidden md:flex items-center gap-6 text-sm">
             <Link href="#servicios" className="hover:opacity-90">Servicios</Link>
             <Link href="#galeria" className="hover:opacity-90">Galería</Link>
             <Link href="#faq" className="hover:opacity-90">FAQ</Link>
           </nav>
-
           <button
             className="md:hidden rounded-lg p-2 text-brand-blue"
             aria-label="Abrir menú"
@@ -76,17 +72,17 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile menu SIN botón, solo links */}
+      {/* Mobile menu SIN botón (solo links) */}
       {open && (
         <div className="md:hidden bg-white text-brand-blue border-t border-black/5">
           <nav className="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-3">
-            <Link href="#servicios" className="py-2" onClick={closeMenu}>
+            <Link href="#servicios" className="py-2" onClick={() => setOpen(false)}>
               Servicios
             </Link>
-            <Link href="#galeria" className="py-2" onClick={closeMenu}>
+            <Link href="#galeria" className="py-2" onClick={() => setOpen(false)}>
               Galería
             </Link>
-            <Link href="#faq" className="py-2" onClick={closeMenu}>
+            <Link href="#faq" className="py-2" onClick={() => setOpen(false)}>
               FAQ
             </Link>
           </nav>
