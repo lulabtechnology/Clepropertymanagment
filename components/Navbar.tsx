@@ -23,12 +23,13 @@ export default function Navbar() {
 
   return (
     <header
-      className="fixed top-0 z-50 w-full bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 text-brand-blue border-b border-black/5"
+      // BLANCO SÓLIDO SIEMPRE (sin /95, sin backdrop-blur)
+      className="fixed top-0 z-50 w-full bg-white text-brand-blue border-b border-black/5"
       aria-label="Barra de navegación principal"
     >
-      {/* Header bajo, logo grande dentro */}
-      <div className="mx-auto grid max-w-6xl grid-cols-[1fr_auto_1fr] items-center px-3 md:px-4 h-16 md:h-18">
-        {/* Logo grande sin agrandar el header */}
+      {/* Header compacto; logo grande dentro. Alturas CONSISTENTES */}
+      <div className="mx-auto grid max-w-6xl grid-cols-[1fr_auto_1fr] items-center px-3 md:px-4 h-16 md:h-[72px]">
+        {/* Logo GRANDE sin aumentar la altura del header */}
         <div className="flex items-center">
           <Link href="#hero" className="flex items-center">
             <Image
@@ -36,7 +37,7 @@ export default function Navbar() {
               alt="Clé Property Management"
               width={420}
               height={100}
-              className="h-12 w-auto md:h-14"  /* LOGO ↑, header compacto */
+              className="h-12 w-auto md:h-14"  // logo grande
               priority
             />
           </Link>
