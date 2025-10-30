@@ -116,7 +116,7 @@ export default function Hero() {
     <span
       key={idx}
       className={`block ${
-        index === 0 && idx === 0 ? "mb-8 md:mb-10 lg:mb-12" : ""
+        index === 0 && idx === 0 ? "mb-8 md:mb-10 lg:mb-20" : ""
       }`}
     >
       {ln.withAirbnb && (
