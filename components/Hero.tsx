@@ -14,7 +14,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 
 const slides = [
   {
-    src: "/images/hero-1-new.jpg", // <--- CAMBIADA
+    src: "/images/hero-1-new.jpg", // <--- NUEVA
     alt: "Superhost Airbnb",
     superTitle: "Administramos tu propiedad", // <--- NUEVO arriba del título
     title: "Superhost en Airbnb",
@@ -34,7 +34,7 @@ const slides = [
     alt: "Gestión completa. Resultados reales.",
     title: "Gestión completa. Resultados reales.",
     subtitle:
-      "En Clé nos ocupamos de todo para que tu propiedad genere ingresos de forma sencilla y segura.", // <--- TEXTO NUEVO
+      "En Clé nos ocupamos de todo para que tu propiedad genere ingresos de forma sencilla y segura.", // <--- CAMBIADO
     showAirbnb: false,
   },
   // Slide 4 ELIMINADO
@@ -44,13 +44,13 @@ export default function Hero() {
   const [index, setIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // autoplay: 12s entre imágenes — SIN pausa por hover
+  // autoplay 12s — sin pausa en hover
   useEffect(() => {
     const id = setInterval(() => setIndex((i) => (i + 1) % slides.length), 12000);
     return () => clearInterval(id);
   }, []);
 
-  // Parallax suave en overlay (no escalar imagen para evitar blur)
+  // Parallax en overlay (no escalamos imagen para evitar blur)
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 300], [0, 40]);
 
@@ -81,7 +81,7 @@ export default function Hero() {
         ))}
       </div>
 
-      {/* Bloque centrado; texto blanco más grande */}
+      {/* Bloque centrado; tamaños ↑; título bold; subtítulo cursiva */}
       <div className="relative z-10 mx-auto flex h-full max-w-6xl items-center justify-center px-4">
         <motion.div
           key={`panel-${index}`}
@@ -92,21 +92,21 @@ export default function Hero() {
         >
           {/* Super-título (solo en slide 1) */}
           {slides[index].superTitle && (
-            <div className="mb-2 text-white/95 font-serif text-lg md:text-2xl font-semibold">
+            <div className="mb-2 text-white/95 font-serif text-xl md:text-3xl font-semibold">
               {slides[index].superTitle}
             </div>
           )}
 
-          {/* Título más grande y en negrita; logo Airbnb más grande en slide 1 */}
-          <h1 className="text-white font-serif font-extrabold tracking-tight text-4xl md:text-6xl leading-tight">
+          {/* Título más grande; logo Airbnb más grande en slide 1 */}
+          <h1 className="text-white font-serif font-extrabold tracking-tight text-5xl md:text-7xl leading-tight">
             {slides[index].showAirbnb && (
               <span className="inline-flex items-center justify-center mr-2 align-middle">
                 <img
                   src="/images/airbnb.png"
                   alt="Airbnb"
-                  width={40}
-                  height={40}
-                  className="h-9 w-auto md:h-10"
+                  width={44}
+                  height={44}
+                  className="h-10 w-auto md:h-11"
                 />
               </span>
             )}
@@ -114,7 +114,7 @@ export default function Hero() {
           </h1>
 
           {/* Subtítulo más grande en cursiva */}
-          <p className="mt-4 mx-auto max-w-4xl text-white/95 italic text-lg md:text-xl leading-relaxed">
+          <p className="mt-4 mx-auto max-w-4xl text-white/95 italic text-xl md:text-2xl leading-relaxed">
             {slides[index].subtitle}
           </p>
         </motion.div>
