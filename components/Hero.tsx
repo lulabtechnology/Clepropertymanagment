@@ -5,12 +5,9 @@ import { useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 /**
- * Recomendación: sube ambas imágenes del slide 1
- *  - /public/images/hero-1-new.jpg        (móvil)
- *  - /public/images/hero-1-new@2x.jpg     (desktop, 2560px+)
- * Resto:
- *  - /public/images/hero-2.jpg
- *  - /public/images/hero-3.jpg
+ * Slide 1: sube también /public/images/hero-1-new@2x.jpg (2560px+)
+ * - hero-1-new.jpg  (móvil)
+ * - hero-1-new@2x.jpg (desktop)
  * Logo Airbnb: /public/images/airbnb.png
  */
 
@@ -18,11 +15,9 @@ type Slide = {
   srcMobile: string;
   srcDesktop?: string;
   alt: string;
-  superTitle?: string;
-  title: string;
+  lines: { text: string; withAirbnb?: boolean }[]; // líneas del título (mismo estilo)
   subtitle: string;
-  showAirbnb?: boolean;
-  enhance?: boolean; // aplicar blur/scale extra
+  enhance?: boolean;
 };
 
 const slides: Slide[] = [
@@ -30,24 +25,25 @@ const slides: Slide[] = [
     srcMobile: "/images/hero-1-new.jpg",
     srcDesktop: "/images/hero-1-new@2x.jpg",
     alt: "Superhost Airbnb",
-    superTitle: "Administramos tu propiedad",
-    title: "Superhost en Airbnb",
+    lines: [
+      { text: "Administramos tu propiedad" },
+      { text: "Superhost en Airbnb", withAirbnb: true },
+    ],
     subtitle:
       "Tu propiedad, nuestra pasión. Tu rentabilidad, nuestro objetivo.",
-    showAirbnb: true,
-    enhance: true, // blur/scale suaves
+    enhance: true,
   },
   {
     srcMobile: "/images/hero-2.jpg",
     alt: "Por qué elegirnos",
-    title: "POR QUÉ ELEGIRNOS",
+    lines: [{ text: "POR QUÉ ELEGIRNOS" }],
     subtitle:
       "Cada propiedad es única; nuestra gestión también. En Clé Property Management diseñamos soluciones personalizadas para cada propiedad, adaptándonos a su estilo, sus metas y sus tiempos.",
   },
   {
     srcMobile: "/images/hero-3.jpg",
     alt: "Gestión completa. Resultados reales.",
-    title: "Gestión completa. Resultados reales.",
+    lines: [{ text: "Gestión completa. Resultados reales." }],
     subtitle:
       "En Clé nos ocupamos de todo para que tu propiedad genere ingresos de forma sencilla y segura.",
   },
@@ -59,51 +55,53 @@ export default function Hero() {
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 300], [0, 40]);
 
+  const slide = slides[index];
+
   return (
     <section id="hero" className="relative h-[86svh] md:h-[92svh] overflow-hidden">
-      {/* Slides sin autoplay */}
+      {/* fondo */}
       <div className="absolute inset-0">
         {slides.map((s, i) => {
-          const src = s.srcDesktop ?? s.srcMobile;
-          return (
-            <motion.div
-              key={`${s.srcMobile}-${i}`}
-              className="absolute inset-0"
-              initial={false}
-              animate={{ opacity: i === index ? 1 : 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <motion.div style={{ y }} className="absolute inset-0 bg-hero-overlay" />
-              {/* Mobile */}
-              <Image
-                src={s.srcMobile}
-                alt={s.alt}
-                fill
-                quality={95}
-                sizes="(max-width: 767px) 100vw"
-                priority={i === 0}
-                className={`object-cover object-center md:hidden ${
-                  s.enhance ? "scale-[1.03] [filter:blur(0.8px)]" : ""
-                }`}
-              />
-              {/* Desktop (usa @2x si existe) */}
-              <Image
-                src={src}
-                alt={s.alt}
-                fill
-                quality={95}
-                sizes="(min-width: 768px) 100vw"
-                priority={i === 0}
-                className={`hidden md:block object-cover object-center ${
-                  s.enhance ? "scale-[1.04] [filter:blur(1.1px)]" : ""
-                }`}
-              />
-            </motion.div>
-          );
+            const src = s.srcDesktop ?? s.srcMobile;
+            return (
+              <motion.div
+                key={`${s.srcMobile}-${i}`}
+                className="absolute inset-0"
+                initial={false}
+                animate={{ opacity: i === index ? 1 : 0 }}
+                transition={{ duration: 0.8 }}
+              >
+                <motion.div style={{ y }} className="absolute inset-0 bg-hero-overlay" />
+                {/* mobile */}
+                <Image
+                  src={s.srcMobile}
+                  alt={s.alt}
+                  fill
+                  quality={95}
+                  sizes="(max-width: 767px) 100vw"
+                  priority={i === 0}
+                  className={`md:hidden object-cover object-center ${
+                    s.enhance ? "scale-[1.03] [filter:blur(0.8px)]" : ""
+                  }`}
+                />
+                {/* desktop */}
+                <Image
+                  src={src}
+                  alt={s.alt}
+                  fill
+                  quality={95}
+                  sizes="(min-width: 768px) 100vw"
+                  priority={i === 0}
+                  className={`hidden md:block object-cover object-center ${
+                    s.enhance ? "scale-[1.04] [filter:blur(1.1px)]" : ""
+                  }`}
+                />
+              </motion.div>
+            );
         })}
       </div>
 
-      {/* Texto centrado */}
+      {/* Texto centrado idéntico en móvil/desktop */}
       <div className="relative z-10 mx-auto flex h-full max-w-6xl items-center justify-center px-4">
         <motion.div
           key={`panel-${index}`}
@@ -112,29 +110,29 @@ export default function Hero() {
           transition={{ duration: 0.6 }}
           className="w-full max-w-5xl text-center p-2 md:p-4"
         >
-          {slides[index].superTitle && (
-            <div className="mb-2 text-white/95 font-serif text-2xl md:text-4xl font-semibold">
-              {slides[index].superTitle}
-            </div>
-          )}
-
-          <h1 className="text-white font-serif font-extrabold tracking-tight text-5xl md:text-7xl leading-tight">
-            {slides[index].showAirbnb && (
-              <span className="inline-flex items-center justify-center mr-2 align-middle">
-                <img
-                  src="/images/airbnb.png"
-                  alt="Airbnb"
-                  width={44}
-                  height={44}
-                  className="h-10 w-auto md:h-11"
-                />
+          {/* Título en dos líneas (mismo estilo, mismo blanco y tamaño) */}
+          <h1 className="font-serif font-extrabold tracking-tight text-white drop-shadow-[0_3px_14px_rgba(0,0,0,0.55)] leading-[1.08] text-4xl md:text-6xl lg:text-7xl">
+            {slide.lines.map((ln, idx) => (
+              <span key={idx} className="block">
+                {ln.withAirbnb && (
+                  <span className="inline-flex items-center justify-center mr-2 align-middle">
+                    <img
+                      src="/images/airbnb.png"
+                      alt="Airbnb"
+                      width={44}
+                      height={44}
+                      className="h-9 w-auto md:h-10"
+                    />
+                  </span>
+                )}
+                {ln.text}
               </span>
-            )}
-            {slides[index].title}
+            ))}
           </h1>
 
-          <p className="mt-4 mx-auto max-w-4xl text-white/95 italic text-xl md:text-2xl leading-relaxed">
-            {slides[index].subtitle}
+          {/* Subtítulo */}
+          <p className="mt-4 mx-auto max-w-4xl text-white/95 italic text-lg md:text-xl lg:text-2xl leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.55)]">
+            {slide.subtitle}
           </p>
         </motion.div>
       </div>
