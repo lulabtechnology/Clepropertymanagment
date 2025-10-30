@@ -1,7 +1,6 @@
 import Link from "next/link";
 
-const email =
-  process.env.NEXT_PUBLIC_CONTACT_EMAIL || "contact@clepropertyinvestment.com";
+const email = "contact@clepropertyinvestment.com"; // hardcodeado para reflejar cambio inmediato
 
 export default function Footer() {
   return (
