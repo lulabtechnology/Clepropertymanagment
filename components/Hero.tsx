@@ -1,12 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 /**
  * Imágenes:
- *  - Slide 1 NUEVA: /public/images/hero-1-new.jpg  <-- súbela tú
+ *  - Slide 1 NUEVA: /public/images/hero-1-new.jpg
  *  - Slide 2:        /public/images/hero-2.jpg
  *  - Slide 3:        /public/images/hero-3.jpg
  * Logo Airbnb (opcional): /public/images/airbnb.png
@@ -18,7 +18,8 @@ const slides = [
     alt: "Superhost Airbnb",
     superTitle: "Administramos tu propiedad", // <--- NUEVO arriba del título
     title: "Superhost en Airbnb",
-    subtitle: "Tu propiedad, nuestra pasión. Tu rentabilidad, nuestro objetivo.",
+    subtitle:
+      "Tu propiedad, nuestra pasión. Tu rentabilidad, nuestro objetivo.",
     showAirbnb: true,
   },
   {
@@ -34,21 +35,13 @@ const slides = [
     alt: "Gestión completa. Resultados reales.",
     title: "Gestión completa. Resultados reales.",
     subtitle:
-      "En Clé nos ocupamos de todo para que tu propiedad genere ingresos de forma sencilla y segura.", // <--- CAMBIADO
+      "En Clé nos ocupamos de todo para que tu propiedad genere ingresos de forma sencilla y segura.",
     showAirbnb: false,
   },
-  // Slide 4 ELIMINADO
 ];
 
 export default function Hero() {
   const [index, setIndex] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  // autoplay 12s — sin pausa en hover
-  useEffect(() => {
-    const id = setInterval(() => setIndex((i) => (i + 1) % slides.length), 12000);
-    return () => clearInterval(id);
-  }, []);
 
   // Parallax en overlay (no escalamos imagen para evitar blur)
   const { scrollY } = useScroll();
@@ -56,7 +49,8 @@ export default function Hero() {
 
   return (
     <section id="hero" className="relative h-[86svh] md:h-[92svh] overflow-hidden">
-      <div ref={containerRef} className="absolute inset-0">
+      {/* Slides: sin autoplay, solo cambian con dots */}
+      <div className="absolute inset-0">
         {slides.map((s, i) => (
           <motion.div
             key={s.src}
@@ -81,7 +75,7 @@ export default function Hero() {
         ))}
       </div>
 
-      {/* Bloque centrado; tamaños ↑; título bold; subtítulo cursiva */}
+      {/* Texto centrado; tamaños ↑; título bold; subtítulo cursiva */}
       <div className="relative z-10 mx-auto flex h-full max-w-6xl items-center justify-center px-4">
         <motion.div
           key={`panel-${index}`}
@@ -90,14 +84,14 @@ export default function Hero() {
           transition={{ duration: 0.6 }}
           className="w-full max-w-5xl text-center p-2 md:p-4"
         >
-          {/* Super-título (solo en slide 1) */}
+          {/* Super-título SOLO en slide 1 */}
           {slides[index].superTitle && (
             <div className="mb-2 text-white/95 font-serif text-xl md:text-3xl font-semibold">
               {slides[index].superTitle}
             </div>
           )}
 
-          {/* Título más grande; logo Airbnb más grande en slide 1 */}
+          {/* Título grande; logo Airbnb más grande en slide 1 */}
           <h1 className="text-white font-serif font-extrabold tracking-tight text-5xl md:text-7xl leading-tight">
             {slides[index].showAirbnb && (
               <span className="inline-flex items-center justify-center mr-2 align-middle">
@@ -120,7 +114,7 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* Dots (sin flechas) */}
+      {/* Dots (sin flechas, sin autoplay) */}
       <div className="absolute bottom-5 left-1/2 z-10 -translate-x-1/2">
         <div className="flex gap-2">
           {slides.map((_, i) => (
