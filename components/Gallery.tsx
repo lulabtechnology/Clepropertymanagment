@@ -2,53 +2,33 @@
 
 import Section from "./Section";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 
 const pics = [
   { src: "/images/prop-1.jpg", alt: "Galería 1" },
   { src: "/images/prop-2.jpg", alt: "Galería 2" },
   { src: "/images/prop-3.jpg", alt: "Galería 3" },
   { src: "/images/prop-4.jpg", alt: "Galería 4" },
-  { src: "/images/prop-5.jpg", alt: "Galería 5" }
+  { src: "/images/prop-5.jpg", alt: "Galería 5" },
+  { src: "/images/prop-6.jpg", alt: "Galería 6" },
 ];
 
 export default function Gallery() {
-  const [i, setI] = useState(0);
-
-  // autoplay constante, sin pausa
-  useEffect(() => {
-    const id = setInterval(() => setI((p) => (p + 1) % pics.length), 4500);
-    return () => clearInterval(id);
-  }, []);
-
   return (
     <Section id="galeria" title="Galería" subtitle={undefined}>
-      <div className="relative overflow-hidden rounded-2xl shadow-soft">
-        <div
-          className="flex transition-transform duration-700 ease-out"
-          style={{ transform: `translateX(-${i * 100}%)` }}
-        >
-          {pics.map((p) => (
-            <div key={p.src} className="relative aspect-[16/9] w-full shrink-0">
-              <Image
-                src={p.src}
-                alt={p.alt}
-                fill
-                quality={90}
-                sizes="(min-width: 1280px) 1152px, (min-width: 768px) 704px, 100vw"
-                className="object-cover"
-                placeholder="empty"
-              />
-            </div>
-          ))}
-        </div>
-        <div className="pointer-events-none absolute inset-0 flex items-end justify-center pb-3">
-          <div className="flex gap-2">
-            {pics.map((_, idx) => (
-              <span key={idx} className={`dot ${idx === i ? "dot-active" : ""}`} />
-            ))}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {pics.map((p) => (
+          <div key={p.src} className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl shadow-soft">
+            <Image
+              src={p.src}
+              alt={p.alt}
+              fill
+              quality={90}
+              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+              className="object-cover"
+              placeholder="empty"
+            />
           </div>
-        </div>
+        ))}
       </div>
     </Section>
   );
