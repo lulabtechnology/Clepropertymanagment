@@ -5,17 +5,21 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 /**
- * Imágenes: /public/images/hero-1..4.jpg
- * Logo Airbnb: /public/images/airbnb.png  (sube ese archivo)
+ * Imágenes:
+ *  - Slide 1 NUEVA: /public/images/hero-1-new.jpg  <-- súbela tú
+ *  - Slide 2:        /public/images/hero-2.jpg
+ *  - Slide 3:        /public/images/hero-3.jpg
+ * Logo Airbnb (opcional): /public/images/airbnb.png
  */
+
 const slides = [
   {
-    src: "/images/hero-1.jpg",
+    src: "/images/hero-1-new.jpg", // <--- CAMBIADA
     alt: "Superhost Airbnb",
+    superTitle: "Administramos tu propiedad", // <--- NUEVO arriba del título
     title: "Superhost en Airbnb",
-    subtitle:
-      "Tu propiedad, nuestra pasión. Tu rentabilidad, nuestro objetivo.",
-    showAirbnb: true
+    subtitle: "Tu propiedad, nuestra pasión. Tu rentabilidad, nuestro objetivo.",
+    showAirbnb: true,
   },
   {
     src: "/images/hero-2.jpg",
@@ -23,50 +27,36 @@ const slides = [
     title: "POR QUÉ ELEGIRNOS",
     subtitle:
       "Cada propiedad es única; nuestra gestión también. En Clé Property Management diseñamos soluciones personalizadas para cada propiedad, adaptándonos a su estilo, sus metas y sus tiempos.",
-    showAirbnb: false
+    showAirbnb: false,
   },
   {
     src: "/images/hero-3.jpg",
     alt: "Gestión completa. Resultados reales.",
     title: "Gestión completa. Resultados reales.",
     subtitle:
-      "En Clé nos encargamos de cada detalle para que tú solo recibas tus ingresos: Publicación y reservas en Airbnb y Booking · Limpieza y mantenimiento profesional · Atención personalizada a huéspedes · Reportes de ingresos y pagos seguros.",
-    showAirbnb: false
+      "En Clé nos ocupamos de todo para que tu propiedad genere ingresos de forma sencilla y segura.", // <--- TEXTO NUEVO
+    showAirbnb: false,
   },
-  {
-    src: "/images/hero-4.jpg",
-    alt: "Gestión financiera transparente",
-    title: "Gestión financiera transparente",
-    subtitle:
-      "Cada número cuenta, y tú lo ves todo. En Clé administramos tus ingresos y gastos con precisión y total visibilidad. Accede a reportes claros de reservas, mantenimientos y pagos, para que tengas siempre el control de tus finanzas.",
-    showAirbnb: false
-  }
+  // Slide 4 ELIMINADO
 ];
 
 export default function Hero() {
   const [index, setIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // autoplay: 12s entre imágenes
+  // autoplay: 12s entre imágenes — SIN pausa por hover
   useEffect(() => {
-    if (paused) return;
     const id = setInterval(() => setIndex((i) => (i + 1) % slides.length), 12000);
     return () => clearInterval(id);
-  }, [paused]);
+  }, []);
 
-  // Parallax solo en overlay (no escalar imagen para evitar blur)
+  // Parallax suave en overlay (no escalar imagen para evitar blur)
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 300], [0, 40]);
 
   return (
     <section id="hero" className="relative h-[86svh] md:h-[92svh] overflow-hidden">
-      <div
-        ref={containerRef}
-        className="absolute inset-0"
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
-      >
+      <div ref={containerRef} className="absolute inset-0">
         {slides.map((s, i) => (
           <motion.div
             key={s.src}
@@ -91,7 +81,7 @@ export default function Hero() {
         ))}
       </div>
 
-      {/* Bloque centrado; texto blanco (título bold y subtítulo cursiva) */}
+      {/* Bloque centrado; texto blanco más grande */}
       <div className="relative z-10 mx-auto flex h-full max-w-6xl items-center justify-center px-4">
         <motion.div
           key={`panel-${index}`}
@@ -100,29 +90,37 @@ export default function Hero() {
           transition={{ duration: 0.6 }}
           className="w-full max-w-5xl text-center p-2 md:p-4"
         >
-          <h1 className="text-white font-serif font-bold tracking-tight text-3xl md:text-5xl leading-tight">
+          {/* Super-título (solo en slide 1) */}
+          {slides[index].superTitle && (
+            <div className="mb-2 text-white/95 font-serif text-lg md:text-2xl font-semibold">
+              {slides[index].superTitle}
+            </div>
+          )}
+
+          {/* Título más grande y en negrita; logo Airbnb más grande en slide 1 */}
+          <h1 className="text-white font-serif font-extrabold tracking-tight text-4xl md:text-6xl leading-tight">
             {slides[index].showAirbnb && (
               <span className="inline-flex items-center justify-center mr-2 align-middle">
-                {/* Usamos <img> para evitar el error de Next con SVG faltante */}
                 <img
                   src="/images/airbnb.png"
                   alt="Airbnb"
-                  width={34}
-                  height={34}
-                  className="h-7 w-auto md:h-8"
+                  width={40}
+                  height={40}
+                  className="h-9 w-auto md:h-10"
                 />
               </span>
             )}
             {slides[index].title}
           </h1>
 
-          <p className="mt-4 mx-auto max-w-4xl text-white/95 italic text-base md:text-lg leading-relaxed">
+          {/* Subtítulo más grande en cursiva */}
+          <p className="mt-4 mx-auto max-w-4xl text-white/95 italic text-lg md:text-xl leading-relaxed">
             {slides[index].subtitle}
           </p>
         </motion.div>
       </div>
 
-      {/* Sin flechas */}
+      {/* Dots (sin flechas) */}
       <div className="absolute bottom-5 left-1/2 z-10 -translate-x-1/2">
         <div className="flex gap-2">
           {slides.map((_, i) => (
