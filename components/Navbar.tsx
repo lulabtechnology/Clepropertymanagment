@@ -32,14 +32,16 @@ export default function Navbar() {
         {/* Logo GRANDE sin aumentar la altura del header */}
         <div className="flex items-center">
           <Link href="#hero" className="flex items-center">
-            <Image
-              src="/images/logo.png"
-              alt="Clé Property Management"
-              width={420}
-              height={100}
-              className="h-12 w-auto md:h-14"  // logo grande
-              priority
-            />
+          <Image
+  src="/images/logo.png"
+  alt="Clé Property Management"
+  width={420}
+  height={100}
+  // Logo más grande SIN cambiar el alto del topbar
+  className="h-[58px] w-auto md:h-[68px]"
+  priority
+/>
+
           </Link>
         </div>
 
