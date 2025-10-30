@@ -112,28 +112,29 @@ export default function Hero() {
           {/* Título: mismas clases para ambas líneas.
               En el slide 1, damos más separación entre línea 1 y 2 (mb-3 md:mb-4) */}
           <h1 className="font-serif font-extrabold tracking-tight text-white drop-shadow-[0_3px_14px_rgba(0,0,0,0.55)] leading-[1.08] text-4xl md:text-6xl lg:text-7xl">
-            {slide.lines.map((ln, idx) => (
-              <span
-                key={idx}
-                className={`block ${
-                  index === 0 && idx === 0 ? "mb-3 md:mb-4" : ""
-                }`}
-              >
-                {ln.withAirbnb && (
-                  <span className="inline-flex items-center justify-center mr-2 align-middle">
-                    <img
-                      src="/images/airbnb.png"
-                      alt="Airbnb"
-                      width={44}
-                      height={44}
-                      className="h-9 w-auto md:h-10"
-                    />
-                  </span>
-                )}
-                {ln.text}
-              </span>
-            ))}
-          </h1>
+  {slide.lines.map((ln, idx) => (
+    <span
+      key={idx}
+      className={`block ${
+        index === 0 && idx === 0 ? "mb-6 md:mb-8 lg:mb-10" : ""
+      }`}
+    >
+      {ln.withAirbnb && (
+        <span className="inline-flex items-center justify-center mr-2 align-middle">
+          <img
+            src="/images/airbnb.png"
+            alt="Airbnb"
+            width={44}
+            height={44}
+            className="h-9 w-auto md:h-10"
+          />
+        </span>
+      )}
+      {ln.text}
+    </span>
+  ))}
+</h1>
+
 
           <p className="mt-4 mx-auto max-w-4xl text-white/95 italic text-lg md:text-xl lg:text-2xl leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.55)]">
             {slide.subtitle}
