@@ -26,36 +26,36 @@ export default function Navbar() {
       className="fixed top-0 z-50 w-full bg-white text-brand-blue shadow border-b border-black/5"
       aria-label="Barra de navegación principal"
     >
-      {/* Grid: logo | CTA centro | menú derecha */}
-      <div className="mx-auto grid h-20 max-w-6xl grid-cols-3 items-center px-4">
-        {/* Logo aún más grande pero dentro del topbar */}
+      {/* Aumentamos el alto del header para alojar un logo grande */}
+      <div className="mx-auto grid h-24 max-w-6xl grid-cols-3 items-center px-4">
+        {/* Logo MUCHO más grande pero sin salirse (h-20 dentro de h-24) */}
         <div className="flex items-center">
           <Link href="#hero" className="flex items-center">
             <Image
               src="/images/logo.png"
               alt="Clé Property Management"
-              width={320}
-              height={80}
-              className="h-14 w-auto"  /* h-14 dentro de h-20 */
+              width={420}
+              height={100}
+              className="h-20 w-auto"
               priority
             />
           </Link>
         </div>
 
-        {/* Centro: ÚNICO botón Contáctenos */}
+        {/* Centro: único CTA WhatsApp */}
         <div className="flex items-center justify-center">
           <a
             href={wa}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Contactar por WhatsApp"
-            className="rounded-full bg-[color:var(--brand-gold)] px-6 py-2.5 font-medium text-white shadow-soft hover:opacity-90"
+            className="rounded-full bg-[color:var(--brand-gold)] px-7 py-3 font-medium text-white shadow-soft hover:opacity-90"
           >
             Contáctenos
           </a>
         </div>
 
-        {/* Menú derecha + hamburguesa móvil */}
+        {/* Menú derecha + hamburguesa en móvil */}
         <div className="flex items-center justify-end">
           <nav className="hidden md:flex items-center gap-6 text-sm">
             <Link href="#servicios" className="hover:opacity-90">Servicios</Link>
@@ -72,7 +72,6 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Menú móvil sin botón CTA */}
       {open && (
         <div className="md:hidden bg-white text-brand-blue border-t border-black/5">
           <nav className="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-3">
